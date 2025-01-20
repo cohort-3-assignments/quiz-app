@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Helvitica,Ubuntu;
+    }
+
+    nav {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 0;
+        text-align: center;
+
+    }
+
+    #start {
+        height: 50vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+    
+    #start-btn{
+        display: block;
+        margin: 0 auto;
+        padding: 10px 20px;
+        background-color: #7a179e;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        margin-top: 20px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0,0,0,1);
+    }
+
+    #start-btn:hover {
+        background-color: #5f0d6d;
+    }
+
+
+    #quiz {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height:30vh;
+        width: 50%;
+
+        box-shadow: 0 3px 10px rgba(0,0,0,1);
+        padding: 20px;
+        margin: 10px;
+        border-radius: 10px;
+
+    }
+
+    #quiz ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    #quiz ul li {
+        margin: 10px 0;
+    }
+
+    #quiz ul li input {
+        margin-right: 10px;
+    }
+
+    #quiz ul li label {
+        cursor: pointer;
+    }
+
+    #submit {
+        display: block;
+        margin: 0 auto;
+        padding: 10px 20px;
+        background-color: #7a179e;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        margin-top: 20px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0,0,0,1);
+    }
+
+    #quiz button:hover {
+        background-color: #5f0d6d;
+    }
+
+    #restart {
+        display: block;
+        margin: 0 auto;
+        padding: 10px 20px;
+        background-color: #7a179e;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        margin-top: 20px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0,0,0,1);
+    }
+
+    #submit-answer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        align-items: end;
+    }
+   
+</style>
+<body>
+    <nav>
+        <div class="container">
+            <h1>Quiz App</h1>
+        </div>
+    </nav>
+
+    <!-- start -->
+     <div id="start">
+        <h2>Ready to take the quiz?</h2>
+        <p>This quiz will test your knowledge on various topics</p>
+        <p>Good luck!</p>
+        <button id="start-btn">Start</button>
+    </div>
+
+    <!-- quiz -->
+    <div id="quiz" style="display: none;">
+    </div>
+
+    
+</body>
+
+<script>
+    // load questions from json file
+    // import quizData from './data.js';
+    //  use this quizData in your app.
+ const quizData = [{
+    "question": "Which language runs in a web browser?",
+    "a": "Java",
+    "b": "C",
+    "c": "Python",
+    "d": "JavaScript",
+    "correct": "d",
+},
+{
+    "question": "What does CSS stand for?",
+    "a": "Central Style Sheets",
+    "b": "Cascading Style Sheets",
+    "c": "Cascading Simple Sheets",
+    "d": "Cars SUVs Sailboats",
+    "correct": "b",
+},
+{
+    "question": "What does HTML stand for?",
+    "a": "Hypertext Markup Language",
+    "b": "Hypertext Markdown Language",
+    "c": "Hyperloop Machine Language",
+    "d": "Helicopters Terminals Motorboats Lamborginis",
+    "correct": "a",
+},
+{
+    "question": "What year was JavaScript launched?",
+    "a": "1996",
+    "b": "1995",
+    "c": "1994",
+    "d": "none of the above",
+    "correct": "b",
+},
+// you can add more quiz here
+]
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const maxQuestions = quizData.length;
+
+    document.getElementById('start-btn').addEventListener('click', () => {
+       
+        document.getElementById('start').style.display = 'none';
+        document.getElementById('quiz').style.display = 'block';
+
+        // load questions
+        currentQuestion = 0;
+        score = 0;
+        showQuestion();
+    });
+
+    // show question card qith quesiton options and submit 
+    // on submit check if answer is correct or not
+    // if correct increment score
+    // show next question with slide in animation
+    // if last question show score
+    // on restart show start screen
+
+
+    // show question
+    function showQuestion() {
+        const question = quizData[currentQuestion];
+        const quiz = document.getElementById('quiz');
+        quiz.innerHTML = `
+            <h2>${question.question}</h2>
+            <ul>
+                <li>
+                    <input type="radio" name="answer" id="a" value="a">
+                    <label for="a">${question.a}</label>
+                </li>
+                <li>
+                    <input type="radio" name="answer" id="b" value="b">
+                    <label for="b">${question.b}</label>
+                </li>
+                <li>
+                    <input type="radio" name="answer" id="c" value="c">
+                    <label for="c">${question.c}</label>
+                </li>
+                <li>
+                    <input type="radio" name="answer" id="d" value="d">
+                    <label for="d">${question.d}</label>
+                </li>
+            </ul>
+            <div id="submit-answer">
+                <button id="submit">Submit</button>
+            </div>
+        `;
+
+        document.getElementById('submit').addEventListener('click', () => {
+            const answer = document.querySelector('input[name="answer"]:checked').value;
+            if (answer === question.correct) {
+                score++;
+            }
+
+            currentQuestion++;
+            if (currentQuestion < maxQuestions) {
+                showQuestion();
+            } else {
+                showScore();
+            }
+        });
+    }
+
+    // show score
+    function showScore() {
+        const quiz = document.getElementById('quiz');
+        quiz.innerHTML = `
+            <h2>Your score: ${score}/${maxQuestions}</h2>
+            <button id="restart">End</button>
+        `;
+
+        document.getElementById('restart').addEventListener('click', () => {
+            location.reload();
+        });
+    }
+
+
+ 
+</script>
+</html>
